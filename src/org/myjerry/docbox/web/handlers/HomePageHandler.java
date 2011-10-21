@@ -23,12 +23,27 @@ public class HomePageHandler implements RequestHandler {
 	
 	@Override
 	public ModelAndView process(HttpServletRequest request, HttpServletResponse response) {
-		List<DocBoxFolder> rootFolders = this.folderService.getRootFolder();
-		List<DocBoxFile> rootFiles = this.fileService.getFilesInFolder(DocBoxFolder.ROOT_FOLDER_ID);
+		String folder = request.getParameter("folder");
+		long folderID;
+		if(folder == null || folder.trim().length() == 0) {
+			folderID = 0;
+		} else {
+			folderID = Long.parseLong(folder);
+		}
+		
+		List<DocBoxFolder> rootFolders = this.folderService.getChildFolders(folderID);
+		List<DocBoxFile> rootFiles = this.fileService.getFilesInFolder(folderID);
+		
+		DocBoxFolder currentFolder = null;
+		if(folderID > 0) {
+			currentFolder = this.folderService.getFolderDetails(folderID);
+		}
 		
 		ModelAndView mav = new ModelAndView(JspPages.HOME_PAGE);
 		mav.addObject("folders", rootFolders);
 		mav.addObject("files", rootFiles);
+		mav.addObject("currentFolderID", folderID);
+		mav.addObject("currentFolder", currentFolder);
 		
 		return mav;
 	}

@@ -9,13 +9,16 @@ import org.myjerry.docbox.service.FileService;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 
 public class FileServiceImpl implements FileService {
 	
-	private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+	private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 	@Override
 	public List<DocBoxFile> getFilesInFolder(long folderID) {
@@ -30,6 +33,21 @@ public class FileServiceImpl implements FileService {
 			}
 			
 			return files;
+		}
+		
+		return null;
+	}
+
+	@Override
+	public DocBoxFile getFileDetails(Long fileID) {
+		Key key = KeyFactory.createKey(DocBoxFile.class.getSimpleName(), fileID);
+		Entity entity;
+		try {
+			entity = datastore.get(key);
+			DocBoxFile file = DocBoxFile.fromEntity(entity);
+			return file;
+		} catch (EntityNotFoundException e) {
+			e.printStackTrace();
 		}
 		
 		return null;

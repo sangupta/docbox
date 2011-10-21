@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.myjerry.docbox.web.handlers.CreateFolderHandler;
+import org.myjerry.docbox.web.handlers.FileDetailsHandlers;
 import org.myjerry.docbox.web.handlers.FileUploadHandler;
 import org.myjerry.docbox.web.handlers.HomePageHandler;
 
@@ -27,6 +29,8 @@ public class FrontControllerServlet extends HttpServlet {
 	static {
 		handlers.put("/index.html", new HomePageHandler());
 		handlers.put("/uploadFile.html", new FileUploadHandler());
+		handlers.put("/createFolder.html", new CreateFolderHandler());
+		handlers.put("/fileDetails.html", new FileDetailsHandlers());
 	}
 	
 	@Override

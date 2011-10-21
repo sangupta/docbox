@@ -9,5 +9,9 @@ public interface FolderService {
 	public List<DocBoxFolder> getRootFolder();
 	
 	public List<DocBoxFolder> getChildFolders(long folderID);
+	
+	public long createFolder(String folderName, long parentFolderID);
+
+	public DocBoxFolder getFolderDetails(long folderID);
 
 }

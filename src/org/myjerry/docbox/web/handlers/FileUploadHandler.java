@@ -43,7 +43,7 @@ public class FileUploadHandler implements RequestHandler {
         
         datastore.put(file.toEntity());
         
-        response.sendRedirect("/index.html");
+        response.sendRedirect("/index.html?folder=" + folderID);
         return null;
 	}
 

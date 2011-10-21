@@ -7,33 +7,64 @@
 <%
 	BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 %>
-
-<a href="/_ah/admin" target="_blank" >Local Datastore</a>
-
-<h1>Doc Box</h1>
-
-<h3>File/Folder List</h3>
-<c:if test="${not empty folders}">
-	<ul>
-		<c:forEach items="${folders}" var="folder">
-			<li>${folder.name}</li>
-		</c:forEach>
-	</ul>
-</c:if>
-<c:if test="${not empty files}">
-	<ul>
-		<c:forEach items="${files}" var="file">
-			<li>${file.name}</li>
-		</c:forEach>
-	</ul>
-</c:if>
-
-<h3>Add Folder</h3>
-Click <a href="">here</a> to add a new folder.
-
-<h3>Upload File</h3>
-<form action="<%= blobstoreService.createUploadUrl("/uploadFile.html") %>" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="currentFolderID" value="0" /> 
-	<input type="file" name="fileBeingUploaded">
-	<input type="submit" value="Upload File">
-</form>
+<html>
+	<head>
+		<title>Doc Box - The personal online file store.</title>
+	</head>
+	<body>
+		<a href="/_ah/admin" target="_blank" >Local Datastore</a>
+		
+		<h1>Doc Box</h1>
+		
+		<h3>File/Folder List</h3>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Created</th>
+				<th>Size</th>
+			</tr>
+			
+			<c:if test="${not empty currentFolder}">
+				<tr>
+					<td><a href="/index.html?folder=${currentFolder.parentFolderID}">..</a></td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+			</c:if>
+		
+			<c:if test="${not empty folders}">
+				<c:forEach items="${folders}" var="folder">
+					<tr>
+						<td><a href="/index.html?folder=${folder.folderID}">${folder.name}</a></td>
+						<td>${folder.creationDate}</td>
+						<td>&nbsp;</td>
+					</tr>
+				</c:forEach>
+			</c:if>
+			<c:if test="${not empty files}">
+				<c:forEach items="${files}" var="file">
+					<tr>
+						<td><a href="/fileDetails.html?file=${file.fileID}">${file.name}</a></td>
+						<td>${file.creationDate}</td>
+						<td>${file.size}</td>
+					</tr>
+				</c:forEach>
+			</c:if>
+		
+		</table>
+		
+		<h3>Add Folder</h3>
+		<form action="/createFolder.html" method="POST">
+			<input type="hidden" name="currentFolderID" value="${currentFolderID}" />
+			<input type="text" name="folderName" maxlength="100" />
+			<input type="submit" value="Create Folder" />
+		</form>
+		
+		<h3>Upload File</h3>
+		<form action="<%= blobstoreService.createUploadUrl("/uploadFile.html") %>" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="currentFolderID" value="${currentFolderID}" /> 
+			<input type="file" name="fileBeingUploaded">
+			<input type="submit" value="Upload File">
+		</form>
+	</body>
+</html>

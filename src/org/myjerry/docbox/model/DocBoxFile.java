@@ -5,8 +5,6 @@ import java.util.Date;
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 
 public class DocBoxFile {
 	
@@ -48,15 +46,14 @@ public class DocBoxFile {
 		file.size = (Long) entity.getProperty("size");
 		file.creationDate = (Date) entity.getProperty("creationDate");
 		file.blobKey = (BlobKey) entity.getProperty("blobKey");
-		file.name = (String) entity.getProperty("name");
+		file.parentFolderID = (Long) entity.getProperty("parentFolderID");
 		file.fileID = (Long) entity.getKey().getId();
 		
 		return file;
 	}
 	
 	public Entity toEntity() {
-		Key key = KeyFactory.createKey(DocBoxFile.class.getSimpleName(), this.name);
-		Entity entity = new Entity(DocBoxFile.class.getSimpleName(), key);
+		Entity entity = new Entity(DocBoxFile.class.getSimpleName());
 		
 		entity.setProperty("name", this.name);
 		entity.setProperty("contentType", this.contentType);
