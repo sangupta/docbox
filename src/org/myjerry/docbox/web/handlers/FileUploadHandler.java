@@ -29,16 +29,17 @@ public class FileUploadHandler implements RequestHandler {
 	@Override
 	public ModelAndView process(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(request);
+        long folderID = Long.parseLong(request.getParameter("currentFolderID"));
         BlobKey blobKey = blobs.get("fileBeingUploaded");
         
         if (blobKey == null) {
-            throw new RuntimeException("Blob not uploaded.");
+            response.sendRedirect("/index.html?folder=" + folderID);
+            return null;
         }
 
         BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(blobKey);
         
         DocBoxFile file = new DocBoxFile(blobInfo);
-        long folderID = Long.parseLong(request.getParameter("currentFolderID"));
         file.setParentFolderID(folderID);
         
         datastore.put(file.toEntity());

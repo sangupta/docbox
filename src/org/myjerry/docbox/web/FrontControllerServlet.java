@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.myjerry.docbox.web.handlers.CreateFolderHandler;
 import org.myjerry.docbox.web.handlers.FileDetailsHandlers;
+import org.myjerry.docbox.web.handlers.FileDownloadHandler;
 import org.myjerry.docbox.web.handlers.FileUploadHandler;
 import org.myjerry.docbox.web.handlers.HomePageHandler;
 
@@ -31,6 +32,7 @@ public class FrontControllerServlet extends HttpServlet {
 		handlers.put("/uploadFile.html", new FileUploadHandler());
 		handlers.put("/createFolder.html", new CreateFolderHandler());
 		handlers.put("/fileDetails.html", new FileDetailsHandlers());
+		handlers.put("/downloadFile.html", new FileDownloadHandler());
 	}
 	
 	@Override

@@ -44,5 +44,6 @@
 			</c:if>
 		</table>
 		
+		<a href="/downloadFile.html?file=${file.fileID}&folder=${file.parentFolderID}">Download File</a> | <a href="/index.html?folder=${file.parentFolderID}">Go Back</a>
 	</body>
 </html>
