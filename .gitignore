@@ -22,5 +22,8 @@ release/*
 # Windows noise
 desktop.ini
 
-#Google App Engine
-appengine-generated/*
+# Java Web Applications
+war/WEB-INF/classes/*
+
+# Google App Engine
+war/WEB-INF/appengine-generated/*
