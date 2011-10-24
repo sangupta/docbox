@@ -23,6 +23,7 @@ package org.myjerry.docbox;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.myjerry.docbox.service.impl.AggregateServiceImpl;
 import org.myjerry.docbox.service.impl.FileServiceImpl;
 import org.myjerry.docbox.service.impl.FolderServiceImpl;
 
@@ -38,6 +39,7 @@ public class Beans {
 	static {
 		beans.put(BeanNames.FOLDER_SERVICE, new FolderServiceImpl());
 		beans.put(BeanNames.FILE_SERVICE, new FileServiceImpl());
+		beans.put(BeanNames.AGGREGATE_SERVICE, new AggregateServiceImpl());
 	}
 	
 	@SuppressWarnings("unchecked")

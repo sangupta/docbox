@@ -16,6 +16,15 @@
 		
 		<h1>Doc Box</h1>
 		
+		<h3>Statistics</h3>
+		<p>
+			Folders: ${aggregates.numFolders}
+			<br />
+			Files: ${aggregates.numFiles}
+			<br />
+			Space Used: ${aggregates.totalSize}
+		</p>
+		
 		<h3>File/Folder List</h3>
 		<table>
 			<tr>

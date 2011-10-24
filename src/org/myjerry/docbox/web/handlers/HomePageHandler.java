@@ -27,8 +27,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.myjerry.docbox.BeanNames;
 import org.myjerry.docbox.Beans;
+import org.myjerry.docbox.model.DocBoxAggregates;
 import org.myjerry.docbox.model.DocBoxFile;
 import org.myjerry.docbox.model.DocBoxFolder;
+import org.myjerry.docbox.service.AggregateService;
 import org.myjerry.docbox.service.FileService;
 import org.myjerry.docbox.service.FolderService;
 import org.myjerry.docbox.web.JspPages;
@@ -45,6 +47,8 @@ public class HomePageHandler implements RequestHandler {
 	private FolderService folderService = Beans.getBean(BeanNames.FOLDER_SERVICE);
 	
 	private FileService fileService = Beans.getBean(BeanNames.FILE_SERVICE);
+	
+	private AggregateService aggregateService = Beans.getBean(BeanNames.AGGREGATE_SERVICE);
 	
 	@Override
 	public ModelAndView process(HttpServletRequest request, HttpServletResponse response) {
@@ -64,11 +68,14 @@ public class HomePageHandler implements RequestHandler {
 			currentFolder = this.folderService.getFolderDetails(folderID);
 		}
 		
+		DocBoxAggregates aggregates = this.aggregateService.getAggregates();
+		
 		ModelAndView mav = new ModelAndView(JspPages.HOME_PAGE);
 		mav.addObject("folders", rootFolders);
 		mav.addObject("files", rootFiles);
 		mav.addObject("currentFolderID", folderID);
 		mav.addObject("currentFolder", currentFolder);
+		mav.addObject("aggregates", aggregates);
 		
 		return mav;
 	}

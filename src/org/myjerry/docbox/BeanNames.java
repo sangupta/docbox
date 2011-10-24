@@ -30,5 +30,7 @@ public interface BeanNames {
 	public static final String FOLDER_SERVICE = "folderService";
 	
 	public static final String FILE_SERVICE = "fileService";
+	
+	public static final String AGGREGATE_SERVICE = "aggregateService";
 
 }

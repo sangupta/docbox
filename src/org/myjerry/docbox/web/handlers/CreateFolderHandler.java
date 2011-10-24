@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.myjerry.docbox.BeanNames;
 import org.myjerry.docbox.Beans;
+import org.myjerry.docbox.service.AggregateService;
 import org.myjerry.docbox.service.FolderService;
 import org.myjerry.docbox.web.ModelAndView;
 import org.myjerry.docbox.web.RequestHandler;
@@ -39,6 +40,8 @@ import org.myjerry.docbox.web.RequestHandler;
 public class CreateFolderHandler implements RequestHandler {
 	
 	private FolderService folderService = Beans.getBean(BeanNames.FOLDER_SERVICE);
+	
+	private AggregateService aggregateService = Beans.getBean(BeanNames.AGGREGATE_SERVICE);
 
 	@Override
 	public ModelAndView process(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -47,7 +50,10 @@ public class CreateFolderHandler implements RequestHandler {
 
 		if(folderName != null && folderName.trim().length() > 0) {
 			long folderID = this.folderService.createFolder(folderName, parentFolder);
-			response.sendRedirect("/index.html?folder=" + folderID);
+	        
+			this.aggregateService.updateAggregates(1, 0, 0);
+	        
+	        response.sendRedirect("/index.html?folder=" + folderID);
 		} else {
 			response.sendRedirect("/index.html?folder=" + parentFolder);
 		}

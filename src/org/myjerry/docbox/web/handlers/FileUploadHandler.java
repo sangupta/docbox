@@ -26,7 +26,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.myjerry.docbox.BeanNames;
+import org.myjerry.docbox.Beans;
 import org.myjerry.docbox.model.DocBoxFile;
+import org.myjerry.docbox.service.AggregateService;
 import org.myjerry.docbox.web.ModelAndView;
 import org.myjerry.docbox.web.RequestHandler;
 
@@ -50,7 +53,9 @@ public class FileUploadHandler implements RequestHandler {
 	private BlobInfoFactory blobInfoFactory = new BlobInfoFactory();
 	
 	private static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
+	
+	private AggregateService aggregateService = Beans.getBean(BeanNames.AGGREGATE_SERVICE);
+	
 	@Override
 	public ModelAndView process(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(request);
@@ -68,6 +73,8 @@ public class FileUploadHandler implements RequestHandler {
         file.setParentFolderID(folderID);
         
         datastore.put(file.toEntity());
+
+        this.aggregateService.updateAggregates(0, 1, file.getSize());
         
         response.sendRedirect("/index.html?folder=" + folderID);
         return null;
